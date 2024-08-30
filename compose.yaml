@@ -12,12 +12,14 @@ services:
     ports:
       - "5435:5432"
     environment:
-      - POSTGRES_PASSWORD=pass
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
       - POSTGRES_USER=postgres
     networks:
       - backend
-    volumes:
-      - db-data:/var/lib/postgresql/data
+#    volumes:
+#      - db-data:/var/lib/postgresql/data
+    secrets:
+      - postgres_password
 
   web:
     image: dmdev-web
@@ -38,3 +40,7 @@ networks:
 
 volumes:
   db-data:
+
+secrets:
+  postgres_password:
+    file: ./secrets.txt
